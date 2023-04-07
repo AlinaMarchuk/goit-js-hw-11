@@ -42,3 +42,25 @@ img {
   height: 100%;
   object-fit: cover;
 }
+
+.info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgb(177, 171, 171);
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.load-more {
+  display: none;
+  margin: 15px auto;
+  padding: 8px 16px;
+  font-weight: 500;
+}

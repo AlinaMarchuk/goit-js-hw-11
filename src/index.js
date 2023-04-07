@@ -1,6 +1,9 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { getPicturesData } from './getPicturesData.js';
 import { cardMarkup } from './cardMarkup.js';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { scrollAfterLoadMore } from './scroll.js';
 
 const refs = {
   formEl: document.querySelector('.search-form'),
@@ -12,6 +15,7 @@ let keyWord = '';
 let counterPage = 1;
 
 refs.formEl.addEventListener('submit', onFormSubmit);
+refs.loadMoreBtnEl.addEventListener('click', onLoadBtnClick);
 
 function onFormSubmit(e) {
   e.preventDefault();
@@ -22,11 +26,16 @@ function onFormSubmit(e) {
   console.log(keyWord);
 }
 
+function onLoadBtnClick() {
+  counterPage += 1;
+  renderGallery();
+}
+
 function renderGallery() {
   getPicturesData(keyWord, counterPage)
     .then(response => {
       if (response.data.hits.length === 0) {
-        Notify.warning(
+        Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
@@ -51,7 +60,6 @@ function renderGallery() {
             };
           }
         );
-        console.log('filter', filteredData);
         refs.containerEl.insertAdjacentHTML(
           'beforeend',
           cardMarkup(filteredData)
@@ -63,11 +71,21 @@ function renderGallery() {
 
         if (counterPage === totalPages) {
           refs.loadMoreBtnEl.style.display = 'none';
+          Notify.warning(
+            "We're sorry, but you've reached the end of search results."
+          );
         } else {
           refs.loadMoreBtnEl.style.display = 'block';
         }
 
+        new SimpleLightbox('.gallery a');
         console.log(response);
+
+        if (counterPage === 1) {
+          Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
+        } else {
+          scrollAfterLoadMore();
+        }
       }
     })
     .catch(error => {
