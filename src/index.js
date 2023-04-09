@@ -2,7 +2,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { getPicturesData } from './getPicturesData.js';
-import { cardMarkup } from './cardMarkup.js';
+import { createCardMarkup } from './cardMarkup.js';
 import { scrollAfterLoadMore } from './scroll.js';
 
 const refs = {
@@ -23,7 +23,6 @@ function onFormSubmit(e) {
   refs.containerEl.innerHTML = '';
   keyWord = refs.formEl.elements.searchQuery.value;
   renderGallery();
-  console.log(keyWord);
 }
 
 function onLoadBtnClick() {
@@ -39,8 +38,8 @@ function renderGallery() {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        const filteredData = response.data.hits.map(
-          ({
+        const filteredData = response.data.hits.map(pictureInfo => {
+          return ({
             webformatURL,
             largeImageURL,
             tags,
@@ -48,26 +47,15 @@ function renderGallery() {
             views,
             comments,
             downloads,
-          }) => {
-            return {
-              webformatURL,
-              largeImageURL,
-              tags,
-              likes,
-              views,
-              comments,
-              downloads,
-            };
-          }
-        );
+          } = pictureInfo);
+        });
         refs.containerEl.insertAdjacentHTML(
           'beforeend',
-          cardMarkup(filteredData)
+          createCardMarkup(filteredData)
         );
         const totalPages = Math.ceil(
           response.data.totalHits / response.data.hits.length
         );
-        console.log(totalPages);
 
         if (counterPage === totalPages) {
           refs.loadMoreBtnEl.style.display = 'none';
@@ -89,6 +77,6 @@ function renderGallery() {
       }
     })
     .catch(error => {
-      console.log(error);
+      Notify.failure(error.message);
     });
 }

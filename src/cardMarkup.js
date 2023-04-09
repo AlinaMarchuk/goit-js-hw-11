@@ -1,4 +1,4 @@
-export function cardMarkup(arr) {
+export function createCardMarkup(arr) {
   const markup = arr
     .map(el => {
       return `<a href="${el.largeImageURL}" class="card-link"><div class="photo-card"><div class="image-wrapper"><img src="${el.webformatURL}" alt="" loading="lazy" /></div>

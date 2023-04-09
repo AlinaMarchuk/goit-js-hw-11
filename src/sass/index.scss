@@ -43,6 +43,10 @@ img {
   object-fit: cover;
 }
 
+.photo-card:hover {
+  box-shadow: 0px 1px 6px rgb(80, 78, 78);
+}
+
 .info {
   display: flex;
   justify-content: space-around;
@@ -63,4 +67,17 @@ img {
   margin: 15px auto;
   padding: 8px 16px;
   font-weight: 500;
+  color: white;
+  background-color: rgb(72, 72, 240);
+  border-color: transparent;
+}
+
+.load-more:hover,
+.load-more:focus {
+  border-color: rgb(72, 72, 240);
+  box-shadow: 0px 1px 6px rgb(80, 78, 78);
+}
+
+button {
+  cursor: pointer;
 }
