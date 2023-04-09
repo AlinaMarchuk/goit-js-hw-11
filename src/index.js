@@ -38,8 +38,8 @@ function renderGallery() {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        const filteredData = response.data.hits.map(pictureInfo => {
-          const {
+        const filteredData = response.data.hits.map(
+          ({
             webformatURL,
             largeImageURL,
             tags,
@@ -47,8 +47,18 @@ function renderGallery() {
             views,
             comments,
             downloads,
-          } = pictureInfo;
-        });
+          }) => {
+            return {
+              webformatURL,
+              largeImageURL,
+              tags,
+              likes,
+              views,
+              comments,
+              downloads,
+            };
+          }
+        );
         refs.containerEl.insertAdjacentHTML(
           'beforeend',
           createCardMarkup(filteredData)
