@@ -38,30 +38,9 @@ function renderGallery() {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        const filteredData = response.data.hits.map(
-          ({
-            webformatURL,
-            largeImageURL,
-            tags,
-            likes,
-            views,
-            comments,
-            downloads,
-          }) => {
-            return {
-              webformatURL,
-              largeImageURL,
-              tags,
-              likes,
-              views,
-              comments,
-              downloads,
-            };
-          }
-        );
         refs.containerEl.insertAdjacentHTML(
           'beforeend',
-          createCardMarkup(filteredData)
+          createCardMarkup(response.data.hits)
         );
         const totalPages = Math.ceil(
           response.data.totalHits / response.data.hits.length
