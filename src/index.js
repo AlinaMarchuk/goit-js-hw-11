@@ -39,7 +39,7 @@ function renderGallery() {
         );
       } else {
         const filteredData = response.data.hits.map(pictureInfo => {
-          return ({
+          const {
             webformatURL,
             largeImageURL,
             tags,
@@ -47,7 +47,7 @@ function renderGallery() {
             views,
             comments,
             downloads,
-          } = pictureInfo);
+          } = pictureInfo;
         });
         refs.containerEl.insertAdjacentHTML(
           'beforeend',
