@@ -1,5 +1,5 @@
 export function createCardMarkup(arr) {
-  return (markup = arr
+  return arr
     .map(
       ({
         webformatURL,
@@ -30,5 +30,5 @@ export function createCardMarkup(arr) {
         </div>
       </div></a>`
     )
-    .join(''));
+    .join('');
 }
